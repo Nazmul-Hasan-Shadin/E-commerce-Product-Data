@@ -2,12 +2,13 @@ import { Product } from "../products/product.model";
 import { TOrder } from "./order.interface";
 import { Order } from "./order.models";
 
+// create order into db and updating quantity of stock
 const createOrderIntoDb = async (payload: TOrder) => {
   const productId = payload.productId;
   const isexistProduct = await Product.findOne({ _id: productId });
 
   if (!isexistProduct) {
-    throw new Error("Invalid productId. Product ID does not exist.");
+    throw new Error("Invalid productId(userid). Product ID does not exist.");
   }
 
   if (isexistProduct.inventory.quantity < payload.quantity) {
@@ -34,6 +35,8 @@ const createOrderIntoDb = async (payload: TOrder) => {
     return result;
   }
 };
+
+// pull all order from db
 
 const getAllOrdeFromDb = async (emailQuery?: string) => {
   if (emailQuery) {

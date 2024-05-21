@@ -25,6 +25,21 @@ const createProduct = async (req: Request, res: Response) => {
 
 const getAllProduct = async (req: Request, res: Response) => {
   try {
+    const queryId = req.query.searchTerm;
+
+    if (queryId) {
+      const result = await ProductServices.getSearchDocumentFromDb(
+        queryId as string
+      );
+      res.json({
+        message: "Products matching search term 'iphone' fetched successfully!",
+        success: true,
+        data: result,
+      });
+
+      return;
+    }
+
     const result = await ProductServices.getAllProductFromDb();
     res.json({
       success: true,
@@ -79,7 +94,7 @@ const updateSingleProduct = async (req: Request, res: Response) => {
     console.log(error.message);
   }
 };
-// delete crypto product asset
+// delete product by id
 
 const deleteProductById = async (req: Request, res: Response) => {
   try {
@@ -102,36 +117,10 @@ const deleteProductById = async (req: Request, res: Response) => {
 
 //  search by keyward controller
 
-const getSearchDocument = async (req: Request, res: Response) => {
-  try {
-    const queryId = req.query.searchTerm;
-
-    if (typeof queryId !== "string") {
-      return res.status(400).json({
-        success: false,
-        message: 'Query parameter "searchTerm" must be a string',
-      });
-    }
-    const result = await ProductServices.getSearchDocumentFromDb(queryId);
-    res.json({
-      message: "Products matching search term 'iphone' fetched successfully!",
-      success: true,
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(404).json({
-      success: false,
-
-      message: error.message || "something went wrong",
-    });
-  }
-};
-
 export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProduct,
   updateSingleProduct,
   deleteProductById,
-  getSearchDocument,
 };
