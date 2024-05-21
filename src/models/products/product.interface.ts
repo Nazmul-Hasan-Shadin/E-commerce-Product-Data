@@ -1,9 +1,11 @@
+import mongoose from "mongoose";
 
 
 export type TVariants={
     
         type:string,
-        value:string
+        value:string,
+        _id?:mongoose.Types.ObjectId
     }
 
  export type TInventory={

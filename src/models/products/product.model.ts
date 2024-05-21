@@ -23,4 +23,9 @@ const productSchema=new Schema<TProducts>({
 
 })
 
+ 
+// for searching multiple field
+
+ productSchema.index({name:'text'})
+
 export const Product= model<TProducts>('Product',productSchema)
