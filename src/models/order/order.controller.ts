@@ -14,7 +14,7 @@ const createOrder = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: "sir Id is not vaild ",
+    //   message: "sir Id is not vaild ",
       error: error.message,
     });
   }
