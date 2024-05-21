@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
 import { ProductServices } from "./product.services";
 import mongoose from "mongoose";
+import { TProductsSchema } from "./product.validation";
 
 // post product api
 
 const createProduct = async (req: Request, res: Response) => {
   try {
     const productData = req.body;
-    const result = await ProductServices.createProductIntoDb(productData);
+    const zodParseData= TProductsSchema.parse(productData)
+    const result = await ProductServices.createProductIntoDb(zodParseData);
     res.json({
       success: true,
       message: "Product created successfully!",
@@ -16,7 +18,7 @@ const createProduct = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: error || "something went wrong"
     });
   }
 };
@@ -80,10 +82,11 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const updateSingleProduct = async (req: Request, res: Response) => {
   try {
     const productData = req.body;
+    const zodParseData= TProductsSchema.parse(productData)
     const id = new mongoose.Types.ObjectId(req.params.productId);
     console.log(id);
 
-    const result = await ProductServices.updateProductIntoDb(id, productData);
+    const result = await ProductServices.updateProductIntoDb(id, zodParseData);
 
     res.json({
       success: true,
