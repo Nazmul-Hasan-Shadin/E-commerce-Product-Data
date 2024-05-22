@@ -20,7 +20,7 @@ const createOrderIntoDb = (payload) => __awaiter(void 0, void 0, void 0, functio
         throw new Error("Invalid productId(userid). Product ID does not exist.");
     }
     if (isexistProduct.inventory.quantity < payload.quantity) {
-        throw new Error("Insufficient quantity in stock.");
+        throw new Error("Insufficient quantity available in inventory");
     }
     if (payload.quantity <= 0) {
         throw new Error("Quantity must be a positive number.");

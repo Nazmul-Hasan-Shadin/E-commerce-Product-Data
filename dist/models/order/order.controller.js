@@ -11,12 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderController = void 0;
 const order_services_1 = require("./order.services");
+const order_validate_1 = require("./order.validate");
 // post order controller
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orderInfo = req.body;
-        // const zodValidateParser = OrderSchema.parse(orderInfo);
-        const result = yield order_services_1.OrderServices.createOrderIntoDb(orderInfo);
+        const zodValidateParser = order_validate_1.OrderSchema.parse(orderInfo);
+        const result = yield order_services_1.OrderServices.createOrderIntoDb(zodValidateParser);
         res.status(200).json({
             success: true,
             message: "Order created successfully and updated stock",
@@ -27,8 +28,8 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         console.log(error);
         res.status(400).json({
             success: false,
-            message: "something went wrong || check your order id not found ",
-            error: error.message,
+            message: "Order not found ",
+            // error: (error as Error).message,
         });
     }
 });

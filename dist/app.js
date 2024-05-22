@@ -15,3 +15,12 @@ exports.app.use("/api/orders", order_routes_1.OrderRoutes);
 exports.app.get("/", (req, res) => {
     res.send("Hello World!");
 });
+exports.app.all("*", (req, res, next) => {
+    const error = new Error(`The requested URL is invalid [${req.url}]`);
+    next(error);
+});
+exports.app.use((err, req, res) => {
+    res.status(err.status || 500).json({
+        message: err.message,
+    });
+});

@@ -9,11 +9,11 @@ app.use("/api/products", ProductRoutes);
 app.use("/api/orders", OrderRoutes);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.send("Server is running!");
 });
 
 app.all("*", (req, res, next) => {
-  const error = new Error(`The requested URL is invalid [${req.url}]`);
+  const error = new Error(`This route did not find  please enter correct route [${req.url}]`);
   next(error);
 });
 

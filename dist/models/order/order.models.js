@@ -27,7 +27,11 @@ exports.Order = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const orderSchema = new mongoose_1.Schema({
     email: { type: String, required: true },
-    productId: { type: mongoose_1.default.Types.ObjectId, ref: "Product", required: true },
+    productId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+    },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
 });

@@ -112,7 +112,8 @@ const deleteProductById = (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.json({
             success: true,
             message: "Product deleted successfully!",
-            data: result,
+            data: null,
+            info: result,
         });
     }
     catch (error) {
