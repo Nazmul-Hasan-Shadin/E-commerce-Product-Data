@@ -29,7 +29,8 @@ const updateProductIntoDb = async (
   payload: TProducts
 ) => {
   const id = productId;
-  let updatedData: { $set: Partial<TProducts> } = { $set: {} };
+
+  const updatedData: { $set:any } = { $set: {} };
 
   Object.keys(payload).forEach((property) => {
     const properties = property as keyof TProducts;

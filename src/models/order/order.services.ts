@@ -12,7 +12,7 @@ const createOrderIntoDb = async (payload: TOrder) => {
   }
 
   if (isexistProduct.inventory.quantity < payload.quantity) {
-    throw new Error("Insufficient quantity in stock.");
+    throw new Error("Insufficient quantity available in inventory");
   }
   if (payload.quantity <= 0) {
     throw new Error("Quantity must be a positive number.");
@@ -21,7 +21,7 @@ const createOrderIntoDb = async (payload: TOrder) => {
   if (isexistProduct) {
     const result = await Order.create(payload);
 
-    const updateQuantity = await Product.findOneAndUpdate(
+     await Product.findOneAndUpdate(
       { _id: productId },
       {
         $inc: { "inventory.quantity": -payload.quantity },

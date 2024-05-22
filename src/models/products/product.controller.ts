@@ -15,10 +15,10 @@ const createProduct = async (req: Request, res: Response) => {
       message: "Product created successfully!",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message: error || "something went wrong"
+      message: (error as Error).message || "something went wrong"
     });
   }
 };
@@ -48,10 +48,10 @@ const getAllProduct = async (req: Request, res: Response) => {
       message: "Product fetched successfully!",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: (error as Error).message || "something went wrong",
     });
   }
 };
@@ -69,10 +69,10 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: "Product fetched successfully!",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message || "something went wrong",
+      message: (error as Error).message || "something went wrong",
     });
   }
 };
@@ -93,8 +93,14 @@ const updateSingleProduct = async (req: Request, res: Response) => {
       message: "Product updated successfully!",
       data: result,
     });
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error) {
+   
+    
+    res.json({
+      success: false,
+      message: "Product not updated !",
+      error: (error as Error).message,
+    });
   }
 };
 // delete product by id
@@ -109,11 +115,12 @@ const deleteProductById = async (req: Request, res: Response) => {
     res.json({
       success: true,
       message: "Product deleted successfully!",
-      data: result,
+      data:null,
+      info: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(404).json({
-      error: error.message,
+      error: (error as Error).message,
     });
   }
 };

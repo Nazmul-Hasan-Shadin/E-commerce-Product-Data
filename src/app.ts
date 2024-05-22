@@ -11,3 +11,14 @@ app.use("/api/orders", OrderRoutes);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
+
+app.all("*", (req, res, next) => {
+  const error = new Error(`The requested URL is invalid [${req.url}]`);
+  next(error);
+});
+
+app.use((err: any, req: Request, res: Response) => {
+  res.status(err.status || 500).json({
+    message: err.message,
+  });
+});
