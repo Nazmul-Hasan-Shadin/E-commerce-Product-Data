@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { ProductRoutes } from "./models/products/product.route";
 import { OrderRoutes } from "./models/order/order.routes";
 export const app = express();
@@ -14,10 +14,11 @@ app.get("/", (req: Request, res: Response) => {
 
 app.all("*", (req, res, next) => {
   const error = new Error(`This route did not find  please enter correct route [${req.url}]`);
+  (error as any).status = 404;
   next(error);
 });
 
-app.use((err: any, req: Request, res: Response) => {
+app.use((err: any, req: Request, res: Response,next:NextFunction) => {
   res.status(err.status || 500).json({
     message: err.message,
   });
